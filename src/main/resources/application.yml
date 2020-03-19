@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_null
+    fail-on-unknown-properties: false
+    write-dates-as-timestamp: false

@@ -1,0 +1,9 @@
+           _ _                                        _
+  ___ ___ | (_)_   _____ _ __ _   _        __ _ _ __ (_)
+ / __/ _ \| | \ \ / / _ \ '__| | | |_____ / _` | '_ \| |
+| (_| (_) | | |\ V /  __/ |  | |_| |_____| (_| | |_) | |
+ \___\___/|_|_| \_/ \___|_|   \__, |      \__,_| .__/|_|
+                              |___/            |_|
+version: ${application.version}
+powered by Spring Boot ${spring-boot.version}
+                               Copyright by colivery.app
