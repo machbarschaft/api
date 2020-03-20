@@ -12,7 +12,7 @@ services:
     - POSTGRES_PASSWORD=d2e5e3e3-4203-472d-8290-e7d10b64fa45
 
   api:
-    image: "registry.gitlab.com/colivery/colivery-api"
+    image: "registry.gitlab.com/colivery1/colivery-api"
     container_name: colivery-api
     restart: always
     ports:
