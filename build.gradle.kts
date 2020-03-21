@@ -31,11 +31,15 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.hibernate.validator:hibernate-validator:6.1.2.Final")
+    implementation("org.springdoc:springdoc-openapi-core:1.1.49")
+    implementation("org.springdoc:springdoc-openapi-ui:1.1.49")
     implementation("com.google.firebase:firebase-admin:6.12.2")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
 	}
+    testImplementation ("org.assertj:assertj-core:3.13.2")
+    testImplementation("io.mockk:mockk:1.9.3")
 	testImplementation("org.springframework.security:spring-security-test")
 }
 

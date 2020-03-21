@@ -5,5 +5,39 @@ spring:
   jackson:
     property-naming-strategy: SNAKE_CASE
     default-property-inclusion: non_null
-    fail-on-unknown-properties: false
     write-dates-as-timestamp: false
+    deserialization:
+      fail-on-unknown-properties: false
+security:
+  allowedDomains: http://localhost:3000
+  allowedMethods:
+    - GET
+    - POST
+    - PUT
+    - PATCH
+    - DELETE
+    - OPTIONS
+  allowedHeaders:
+    - Authorization
+    - Origin
+    - Content-Type
+    - Accept
+    - Accept-Encoding
+    - Accept-Language
+    - Access-Control-Allow-Origin
+    - Access-Control-Allow-Headers
+    - Access-Control-Request-Method
+    - X-Requested-With
+    - Cache-Control
+  allowedPublicApis:
+    - /api-docs/**
+
+springdoc:
+  api-docs:
+    path: /api-docs/api-docs
+  swagger-ui:
+    path: /api-docs/swagger-ui.html
+
+logging:
+  level:
+    org.springframework.web: DEBUG
