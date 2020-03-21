@@ -64,7 +64,7 @@ build:
   artifacts:
     expire_in: 24 hour
     paths:
-      - build/libs/colivery-api-*.jar
+      - build/libs/api-*.jar
   tags:
     - s0ra
 
