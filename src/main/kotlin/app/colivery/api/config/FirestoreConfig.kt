@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
-import org.springframework.core.io.Resource
+import java.io.FileInputStream
+import javax.validation.constraints.NotBlank
 
 const val USER_COLLECTION_NAME = "user"
 const val ORDER_ITEM_COLLECTION_NAME = "order_item"
@@ -20,9 +21,14 @@ const val ORDER_COLLECTION_NAME = "order"
 class FirestoreConfig {
 
     @Bean
-    fun createFirebaseApp(@Value("classpath:serviceAccountKey.json") serviceAccount: Resource): FirebaseApp {
+    fun createFirebaseApp(@NotBlank @Value("\${google.keyLocation}") keyLocation: String): FirebaseApp {
+        val stream = if (keyLocation.startsWith("classpath:")) {
+            javaClass.getResourceAsStream(keyLocation.substringAfter("classpath:"))
+        } else {
+            FileInputStream(keyLocation)
+        }
         val options = FirebaseOptions.Builder()
-            .setCredentials(GoogleCredentials.fromStream(serviceAccount.inputStream))
+            .setCredentials(GoogleCredentials.fromStream(stream))
             .setDatabaseUrl("https://colivery-app.firebaseio.com")
             .build()
 
