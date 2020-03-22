@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -36,7 +35,9 @@ class UserResources(
     }
 
     @GetMapping(produces = [APPLICATION_JSON_VALUE])
-    fun getUser(@RequestParam(name = "user_id") userId: String): FirestoreUser {
+    fun getUser(): FirestoreUser {
+        val (userId) = securityUtils.principal
+            ?: throw UnauthorizedException()
         return userService.findUser(userId = userId)
     }
 }
