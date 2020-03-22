@@ -9,7 +9,7 @@ spring:
     deserialization:
       fail-on-unknown-properties: false
 security:
-  allowedDomains: http://localhost:4444
+  allowedDomains: "*"
   allowedMethods:
     - GET
     - POST
