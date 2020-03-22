@@ -25,4 +25,9 @@ class OrderService(private val firestoreClient: FirestoreClient) {
         // TODO check if user is allowed to see this document
         return firestoreClient.updateItemStatus(userId = userId, orderId = orderId, itemId = itemId, status = status)
     }
+
+    fun deleteItem(userId: String, orderId: String, itemId: String) {
+        // TODO check if user is allowed to see this document
+        return firestoreClient.deleteItem(userId = userId, orderId = orderId, itemId = itemId)
+    }
 }

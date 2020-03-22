@@ -7,6 +7,7 @@ import app.colivery.api.config.SecurityUtils
 import app.colivery.api.service.OrderService
 import javax.validation.Valid
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -51,5 +52,13 @@ class OrderResources(
             ?: throw UnauthorizedException()
 
         return orderService.updateOrderStatus(userId = uid, orderId = orderId, itemId = itemId, status = status)
+    }
+
+    @DeleteMapping("/delete_item")
+    fun deleteItem(@RequestParam(name = "order_id") orderId: String, @RequestParam(name = "item_id") itemId: String) {
+        val (uid) = securityUtils.principal
+            ?: throw UnauthorizedException()
+
+        return orderService.deleteItem(userId = uid, orderId = orderId, itemId = itemId)
     }
 }

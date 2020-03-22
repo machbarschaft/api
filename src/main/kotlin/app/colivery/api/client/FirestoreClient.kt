@@ -5,6 +5,7 @@ import app.colivery.api.FirestoreUser
 import app.colivery.api.OrderItemCreationDto
 import app.colivery.api.asMap
 import app.colivery.api.config.ORDER_COLLECTION_NAME
+import app.colivery.api.config.ORDER_ITEM_COLLECTION_NAME
 import app.colivery.api.config.USER_COLLECTION_NAME
 import app.colivery.api.toOrder
 import app.colivery.api.toOrderItem
@@ -40,14 +41,14 @@ class FirestoreClient(private val firestore: Firestore) {
     fun saveOrder(orderDetails: Map<String, Any?>, items: List<OrderItemCreationDto>): FirestoreOrder {
         logger.info("Saving order - $orderDetails")
         val orderId = orderCollection.add(orderDetails).get().id
-        val productCollection = orderCollection.document(orderId).collection("items")
+        val productCollection = orderCollection.document(orderId).collection(ORDER_ITEM_COLLECTION_NAME)
         items.forEach { productCollection.add(it.asMap()).get().get() }
         return findOrder(orderId = orderId)
     }
 
     fun findOrder(orderId: String): FirestoreOrder {
         logger.info("Fetching order $orderId")
-        val items = orderCollection.document(orderId).collection("items").listDocuments().map { it.toOrderItem() }
+        val items = orderCollection.document(orderId).collection(ORDER_ITEM_COLLECTION_NAME).listDocuments().map { it.toOrderItem() }
         val order = orderCollection.document(orderId).toOrder(items = items)
         logger.info("result=$order")
         return order
@@ -55,12 +56,16 @@ class FirestoreClient(private val firestore: Firestore) {
 
     fun findOrdersByUserId(userId: String): List<FirestoreOrder> {
         return orderCollection.whereEqualTo("user_id", userId).get().get().documents.map { orderSnapshot ->
-            val items = orderCollection.document(orderSnapshot.id).collection("items").listDocuments().map { it.toOrderItem() }
+            val items = orderCollection.document(orderSnapshot.id).collection(ORDER_ITEM_COLLECTION_NAME).listDocuments().map { it.toOrderItem() }
             orderSnapshot.toOrder(items)
         }
     }
 
     fun updateItemStatus(userId: String?, orderId: String, itemId: String, status: String) {
-        orderCollection.document(orderId).collection("items").document(itemId).set(mapOf("status" to status), SetOptions.merge()).get()
+        orderCollection.document(orderId).collection(ORDER_ITEM_COLLECTION_NAME).document(itemId).set(mapOf("status" to status), SetOptions.merge()).get()
+    }
+
+    fun deleteItem(userId: String, orderId: String, itemId: String) {
+        orderCollection.document(orderId).collection(ORDER_ITEM_COLLECTION_NAME).document(itemId).delete().get()
     }
 }

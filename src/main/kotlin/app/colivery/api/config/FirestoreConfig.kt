@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 
 const val USER_COLLECTION_NAME = "user"
-const val ORDER_ITEM_COLLECTION_NAME = "order_item"
+const val ORDER_ITEM_COLLECTION_NAME = "items"
 const val ORDER_COLLECTION_NAME = "order"
 
 @Configuration
