@@ -9,7 +9,11 @@ spring:
     deserialization:
       fail-on-unknown-properties: false
 security:
-  allowedDomains: "*"
+  allowedDomains:
+    - "http://localhost:4444"
+    - "https://colivery.app"
+    - "https://colivery-app.web.app"
+    - "https://colivery-app.firebaseapp.com"
   allowedMethods:
     - GET
     - POST
