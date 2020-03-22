@@ -14,4 +14,4 @@ class InternalServerException(message: String, ex: Exception? = null) : RuntimeE
 
 class UnauthorizedException(message: String? = null, ex: Exception? = null) : RuntimeException(message, ex)
 
-class ForbiddenException(message: String? = null, ex: Exception? = null): RuntimeException(message, ex)
+class ForbiddenException(message: String? = null, ex: Exception? = null) : RuntimeException(message, ex)
