@@ -68,4 +68,8 @@ class FirestoreClient(private val firestore: Firestore) {
     fun deleteItem(userId: String, orderId: String, itemId: String) {
         orderCollection.document(orderId).collection(ORDER_ITEM_COLLECTION_NAME).document(itemId).delete().get()
     }
+
+    fun updateOrderStatus(userId: String, orderId: String, status: String) {
+        orderCollection.document(orderId).set(mapOf("status" to status), SetOptions.merge()).get()
+    }
 }

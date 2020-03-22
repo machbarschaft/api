@@ -46,12 +46,20 @@ class OrderResources(
         return orderService.findOrdersByUserId(userId = uid)
     }
 
+    @PostMapping("/update_order_status")
+    fun updateItemStatus(@RequestParam(name = "order_id") orderId: String, @RequestParam(name = "status") status: String) {
+        val (uid) = securityUtils.principal
+            ?: throw UnauthorizedException()
+
+        return orderService.updateOrderStatus(userId = uid, orderId = orderId, status = status)
+    }
+
     @PostMapping("/update_item_status")
     fun updateItemStatus(@RequestParam(name = "order_id") orderId: String, @RequestParam(name = "item_id") itemId: String, @RequestParam(name = "status") status: String) {
         val (uid) = securityUtils.principal
             ?: throw UnauthorizedException()
 
-        return orderService.updateOrderStatus(userId = uid, orderId = orderId, itemId = itemId, status = status)
+        return orderService.updateItemStatus(userId = uid, orderId = orderId, itemId = itemId, status = status)
     }
 
     @DeleteMapping("/delete_item")
