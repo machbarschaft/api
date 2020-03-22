@@ -1,6 +1,7 @@
 package app.colivery.api.service
 
 import app.colivery.api.FirestoreOrder
+import app.colivery.api.FirestoreUser
 import app.colivery.api.OrderCreationDto
 import app.colivery.api.asMap
 import app.colivery.api.client.FirestoreClient
@@ -38,5 +39,9 @@ class OrderService(private val firestoreClient: FirestoreClient) {
 
     fun findOrders(orderIds: List<String>): List<FirestoreOrder> {
         return firestoreClient.findOrders(orderIds = orderIds)
+    }
+
+    fun acceptOffer(userId: String, orderId: String): FirestoreUser {
+        return firestoreClient.acceptOrder(acceptorId = userId, orderId = orderId)
     }
 }

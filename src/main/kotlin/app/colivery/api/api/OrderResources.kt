@@ -1,6 +1,7 @@
 package app.colivery.api.api
 
 import app.colivery.api.FirestoreOrder
+import app.colivery.api.FirestoreUser
 import app.colivery.api.OrderCreationDto
 import app.colivery.api.UnauthorizedException
 import app.colivery.api.config.SecurityUtils
@@ -78,5 +79,13 @@ class OrderResources(
             ?: throw UnauthorizedException()
 
         return orderService.deleteItem(userId = uid, orderId = orderId, itemId = itemId)
+    }
+
+    @PostMapping("/accept")
+    fun acceptOrder(@RequestParam(name = "order_id") orderId: String): FirestoreUser {
+        val (uid) = securityUtils.principal
+            ?: throw UnauthorizedException()
+
+        return orderService.acceptOffer(userId = uid, orderId = orderId)
     }
 }

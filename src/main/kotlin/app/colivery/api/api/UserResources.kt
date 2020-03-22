@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -32,6 +33,13 @@ class UserResources(
             ?: throw UnauthorizedException()
 
         userService.createUser(userCreationDto, userId = authContext.uid, email = authContext.email)
+    }
+
+    @GetMapping("/other", produces = [APPLICATION_JSON_VALUE])
+    fun getUserById(@RequestParam(name = "user_id") userId: String): FirestoreUser {
+        securityUtils.principal
+            ?: throw UnauthorizedException()
+        return userService.findUser(userId = userId)
     }
 
     @GetMapping(produces = [APPLICATION_JSON_VALUE])

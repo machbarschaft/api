@@ -2,6 +2,7 @@ package app.colivery.api.client
 
 import app.colivery.api.FirestoreOrder
 import app.colivery.api.FirestoreUser
+import app.colivery.api.InternalServerException
 import app.colivery.api.OrderItemCreationDto
 import app.colivery.api.asMap
 import app.colivery.api.config.ORDER_COLLECTION_NAME
@@ -79,5 +80,12 @@ class FirestoreClient(private val firestore: Firestore) {
             val items = orderCollection.document(orderSnapshot.id).collection(ORDER_ITEM_COLLECTION_NAME).listDocuments().map { it.toOrderItem() }
             orderSnapshot.toOrder(items)
         }
+    }
+
+    fun acceptOrder(acceptorId: String, orderId: String): FirestoreUser {
+        orderCollection.document(orderId).set(mapOf("driver_user_id" to acceptorId, "status" to "accepted"), SetOptions.merge())
+        val userId = orderCollection.document(orderId).get().get().getString("user_id")
+            ?: throw InternalServerException("Order found with unknown user. This should not happen.")
+        return findUser(userId = userId)
     }
 }
