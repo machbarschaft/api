@@ -18,4 +18,8 @@ class OrderService(private val firestoreClient: FirestoreClient) {
         return firestoreClient.findOrder(orderId = orderId)
     }
 
+    fun findOrdersByUserId(userId: String): List<FirestoreOrder> {
+        return firestoreClient.findOrdersByUserId(userId = userId)
+    }
+
 }

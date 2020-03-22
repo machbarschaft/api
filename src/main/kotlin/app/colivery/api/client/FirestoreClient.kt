@@ -54,4 +54,11 @@ class FirestoreClient(private val firestore: Firestore) {
         logger.info("result=$order")
         return order
     }
+
+    fun findOrdersByUserId(userId: String): List<FirestoreOrder> {
+        return orderCollection.whereEqualTo("user_id", userId).get().get().documents.map { orderSnapshot ->
+            val items = orderCollection.document(orderSnapshot.id).collection("items").listDocuments().map { it.toOrderItem() }
+            orderSnapshot.toOrder(items)
+        }
+    }
 }

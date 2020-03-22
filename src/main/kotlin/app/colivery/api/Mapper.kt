@@ -88,5 +88,5 @@ private inline fun <reified T : Any> notNull(fieldName: String, provider: (field
     return requireNotNull(value) { "$fieldName must not be null" }
 }
 
-private fun DocumentSnapshot.getUpdated(): Instant = notNull("updated") { this.updateTime?.seconds?.let { Instant.ofEpochSecond(it) } }
-private fun DocumentSnapshot.getCreated(): Instant = notNull("created") { this.createTime?.seconds?.let { Instant.ofEpochSecond(it) } }
+private fun DocumentSnapshot.getUpdated(): Instant? = updateTime?.seconds?.let { Instant.ofEpochSecond(it) }
+private fun DocumentSnapshot.getCreated(): Instant? = createTime?.seconds?.let { Instant.ofEpochSecond(it) }

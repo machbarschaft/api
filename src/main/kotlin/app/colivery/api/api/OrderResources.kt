@@ -24,22 +24,25 @@ class OrderResources(
 
     @PostMapping(consumes = [APPLICATION_JSON_VALUE])
     fun createOrder(@Valid @RequestBody orderCreationDto: OrderCreationDto): FirestoreOrder {
-        val authContext = securityUtils.principal
-            ?: throw UnauthorizedException()
+        val (uid) = securityUtils.principal
+                ?: throw UnauthorizedException()
 
-        return orderService.createOrder(userId = authContext.uid, orderCreationDto = orderCreationDto)
+        return orderService.createOrder(userId = uid, orderCreationDto = orderCreationDto)
     }
 
     @GetMapping(produces = [APPLICATION_JSON_VALUE])
     fun getOrder(@RequestParam(name = "order_id") orderId: String): FirestoreOrder {
-        val authContext = securityUtils.principal
+        securityUtils.principal
             ?: throw UnauthorizedException()
 
         return orderService.findOrder(orderId = orderId)
     }
 
-//    @GetMapping(produces = [APPLICATION_JSON_VALUE])
-//    fun getUser(@RequestParam(name = "user_id") userId: String): FirestoreOrder {
-//        return orderService.findOrder()
-//    }
+    @GetMapping("/own", produces = [APPLICATION_JSON_VALUE])
+    fun findOrdersByUserId(): List<FirestoreOrder> {
+        val (uid) = securityUtils.principal
+                ?: throw UnauthorizedException()
+
+        return orderService.findOrdersByUserId(userId = uid)
+    }
 }

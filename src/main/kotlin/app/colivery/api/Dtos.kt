@@ -79,8 +79,8 @@ data class FirestoreUser(
     val phone: String,
     val userId: String,
     val name: String,
-    val updated: Instant,
-    val created: Instant,
+    val updated: Instant?,
+    val created: Instant?,
     val email: String,
     val acceptedSupportInquiry: Boolean,
     val isSupportMember: Boolean
@@ -88,8 +88,8 @@ data class FirestoreUser(
 
 data class FirestoreOrder(
     val id: String,
-    val created: Instant,
-    val updated: Instant,
+    val created: Instant?,
+    val updated: Instant?,
     val driverUserId: String?,
     val hint: String,
     val pickupAddress: String?,
@@ -105,6 +105,6 @@ data class FirestoreOrderItem(
     val id: String,
     val description: String,
     val status: String,
-    val created: Instant,
-    val updated: Instant
+    val created: Instant?,
+    val updated: Instant?
 )
