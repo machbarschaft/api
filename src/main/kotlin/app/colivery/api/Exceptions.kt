@@ -13,3 +13,5 @@ class BadRequestException(message: String, ex: Exception? = null) : RuntimeExcep
 class InternalServerException(message: String, ex: Exception? = null) : RuntimeException(message, ex)
 
 class UnauthorizedException(message: String? = null, ex: Exception? = null) : RuntimeException(message, ex)
+
+class ForbiddenException(message: String? = null, ex: Exception? = null): RuntimeException(message, ex)

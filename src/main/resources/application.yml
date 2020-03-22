@@ -9,7 +9,9 @@ spring:
     deserialization:
       fail-on-unknown-properties: false
 security:
-  allowedDomains: http://localhost:3000
+  allowedDomains:
+    - http://localhost:3000
+    - http://localhost:4444
   allowedMethods:
     - GET
     - POST

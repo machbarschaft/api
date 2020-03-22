@@ -39,7 +39,7 @@ class OrderResources(
     }
 
     @GetMapping("/own", produces = [APPLICATION_JSON_VALUE])
-    fun findOrdersByUserId(): List<FirestoreOrder> {
+    fun findOwnOrders(): List<FirestoreOrder> {
         val (uid) = securityUtils.principal
             ?: throw UnauthorizedException()
 
