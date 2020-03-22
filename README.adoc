@@ -1,0 +1,41 @@
+= Colivery API
+:toc:
+
+== Description
+
+Colivery is a platform to support people who can't or dont't want to leave home in times of Covid-19.
+
+Users can place orders to get stuff they need and others can help them by fetching these items.
+
+== Usage
+
+=== Data
+
+This service uses Google Firestore as place to store data.
+
+=== API
+
+==== local
+
+To start the API locally, use following commands:
+
+    ./gradlew bootRun
+
+The configuration is done via the file `config/application.yml`.
+There's a example present. Just copy the file and enter the necessary configuration.
+Put the credentials, provided by Google Firebase as `serviceAccountKey.json` file in the location defined in the `config/application.yml`
+
+==== docker
+
+To start the API via docker, use the existing `docker-compose.yml`.
+
+=== Testing
+
+Currently, only a trivial test is done which ensures, that the service would startup.
+
+_TODO_: add more tests
+
+=== Deployment
+
+The gitlab ci pipeline automatically builds and publishes the docker container on tag pushes to the docker registry of gitlab.
+The image is available as `registry.gitlab.com/colivery1/colivery-api:{tag-name}`.
