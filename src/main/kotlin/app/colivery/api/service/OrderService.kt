@@ -1,7 +1,6 @@
 package app.colivery.api.service
 
 import app.colivery.api.FirestoreOrder
-import app.colivery.api.FirestoreUser
 import app.colivery.api.OrderCreationDto
 import app.colivery.api.asMap
 import app.colivery.api.client.FirestoreClient
@@ -22,4 +21,8 @@ class OrderService(private val firestoreClient: FirestoreClient) {
         return firestoreClient.findOrdersByUserId(userId = userId)
     }
 
+    fun updateOrderStatus(userId: String, orderId: String, itemId: String, status: String) {
+        // TODO check if user is allowed to see this document
+        return firestoreClient.updateItemStatus(userId = userId, orderId = orderId, itemId = itemId, status = status)
+    }
 }

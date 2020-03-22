@@ -3,7 +3,6 @@ package app.colivery.api.api
 import app.colivery.api.FirestoreOrder
 import app.colivery.api.OrderCreationDto
 import app.colivery.api.UnauthorizedException
-import app.colivery.api.config.AuthContext
 import app.colivery.api.config.SecurityUtils
 import app.colivery.api.service.OrderService
 import javax.validation.Valid
@@ -25,7 +24,7 @@ class OrderResources(
     @PostMapping(consumes = [APPLICATION_JSON_VALUE])
     fun createOrder(@Valid @RequestBody orderCreationDto: OrderCreationDto): FirestoreOrder {
         val (uid) = securityUtils.principal
-                ?: throw UnauthorizedException()
+            ?: throw UnauthorizedException()
 
         return orderService.createOrder(userId = uid, orderCreationDto = orderCreationDto)
     }
@@ -41,8 +40,16 @@ class OrderResources(
     @GetMapping("/own", produces = [APPLICATION_JSON_VALUE])
     fun findOrdersByUserId(): List<FirestoreOrder> {
         val (uid) = securityUtils.principal
-                ?: throw UnauthorizedException()
+            ?: throw UnauthorizedException()
 
         return orderService.findOrdersByUserId(userId = uid)
+    }
+
+    @PostMapping("/update_item_status")
+    fun updateItemStatus(@RequestParam(name = "order_id") orderId: String, @RequestParam(name = "item_id") itemId: String, @RequestParam(name = "status") status: String) {
+        val (uid) = securityUtils.principal
+            ?: throw UnauthorizedException()
+
+        return orderService.updateOrderStatus(userId = uid, orderId = orderId, itemId = itemId, status = status)
     }
 }

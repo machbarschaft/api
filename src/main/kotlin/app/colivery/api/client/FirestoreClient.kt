@@ -5,12 +5,12 @@ import app.colivery.api.FirestoreUser
 import app.colivery.api.OrderItemCreationDto
 import app.colivery.api.asMap
 import app.colivery.api.config.ORDER_COLLECTION_NAME
-import app.colivery.api.config.ORDER_ITEM_COLLECTION_NAME
 import app.colivery.api.config.USER_COLLECTION_NAME
 import app.colivery.api.toOrder
 import app.colivery.api.toOrderItem
 import app.colivery.api.toUser
 import com.google.cloud.firestore.Firestore
+import com.google.cloud.firestore.SetOptions
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Primary
@@ -26,8 +26,6 @@ class FirestoreClient(private val firestore: Firestore) {
         get() = firestore.collection(USER_COLLECTION_NAME)
     private val orderCollection
         get() = firestore.collection(ORDER_COLLECTION_NAME)
-    private val orderItemCollection
-        get() = firestore.collection(ORDER_ITEM_COLLECTION_NAME)
 
     fun saveUser(userId: String, userDetails: Map<String, Any>) {
         logger.info("Saving user $userId - $userDetails")
@@ -60,5 +58,9 @@ class FirestoreClient(private val firestore: Firestore) {
             val items = orderCollection.document(orderSnapshot.id).collection("items").listDocuments().map { it.toOrderItem() }
             orderSnapshot.toOrder(items)
         }
+    }
+
+    fun updateItemStatus(userId: String?, orderId: String, itemId: String, status: String) {
+        orderCollection.document(orderId).collection("items").document(itemId).set(mapOf("status" to status), SetOptions.merge()).get()
     }
 }
