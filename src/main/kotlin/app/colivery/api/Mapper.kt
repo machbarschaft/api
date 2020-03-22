@@ -8,7 +8,7 @@ import java.time.Instant
 fun UserCreationDto.asMap(email: String): Map<String, Any> =
     mapOf(
         "address" to address,
-        "geo_location" to GeoPoint(geoLocation.latitude, geoLocation.longitude),
+        "geo_location" to geoLocation.toGeoPoint(),
         "accepted_privacy_policy" to acceptedPrivacyPolicy,
         "accepted_terms_of_use" to acceptedTermsOfUse,
         "phone" to phone,
@@ -18,9 +18,27 @@ fun UserCreationDto.asMap(email: String): Map<String, Any> =
         "is_support_member" to false
     )
 
+fun OrderCreationDto.asMap(userId: String): Map<String, Any?> =
+    mapOf(
+        "pickup_address" to pickupAddress,
+        "pickup_location" to pickupLocation.toGeoPoint(),
+        "shop_name" to shopName,
+        "shop_type" to shopType,
+        "status" to status,
+        "hint" to hint,
+        "dropoff_location" to dropoffLocation.toGeoPoint(),
+        "user_id" to userId,
+        "support_user" to supportUser
+    )
+
+fun OrderItemCreationDto.asMap() = mapOf<String, Any>(
+    "description" to description,
+    "status" to status
+)
+
 fun DocumentReference.toUser() = get().get().toUser()
 
-fun DocumentReference.toOrder() = get().get().toOrder()
+fun DocumentReference.toOrder(items: List<FirestoreOrderItem>) = get().get().toOrder(items = items)
 
 fun DocumentReference.toOrderItem() = get().get().toOrderItem()
 
@@ -40,7 +58,7 @@ fun DocumentSnapshot.toUser() = FirestoreUser(
 )
 
 @Suppress("unchecked_cast")
-fun DocumentSnapshot.toOrder() = FirestoreOrder(
+fun DocumentSnapshot.toOrder(items: List<FirestoreOrderItem>) = FirestoreOrder(
     id = id,
     created = getCreated(),
     updated = getUpdated(),
@@ -52,7 +70,7 @@ fun DocumentSnapshot.toOrder() = FirestoreOrder(
     pickupLocation = getGeoPoint("pickup_location"),
     shopName = notNull("shop_name", this::getString),
     shopType = notNull("shop_type", this::getString),
-    products = (get("products") as List<DocumentReference>).map { it.toOrderItem() }
+    items = items
 )
 
 fun DocumentSnapshot.toOrderItem() = FirestoreOrderItem(
@@ -62,6 +80,8 @@ fun DocumentSnapshot.toOrderItem() = FirestoreOrderItem(
     created = getCreated(),
     updated = getUpdated()
 )
+
+fun LatLng.toGeoPoint() = GeoPoint(latitude, longitude)
 
 private inline fun <reified T : Any> notNull(fieldName: String, provider: (fieldName: String) -> T?): T {
     val value: T? = provider(fieldName)

@@ -1,11 +1,12 @@
 package app.colivery.api
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import com.google.cloud.firestore.GeoPoint
 import java.time.Instant
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import org.springframework.validation.annotation.Validated
 
@@ -18,7 +19,7 @@ data class LatLng(
 )
 
 @Validated
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
+@JsonNaming(SnakeCaseStrategy::class)
 data class UserCreationDto(
     @NotBlank
     val address: String,
@@ -37,7 +38,39 @@ data class UserCreationDto(
     val name: String
 )
 
-@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy::class)
+@Validated
+@JsonNaming(SnakeCaseStrategy::class)
+data class OrderCreationDto(
+    @NotBlank
+    val pickupAddress: String,
+    @NotBlank
+    val pickupLocation: LatLng,
+    @NotBlank
+    val shopName: String,
+    @NotBlank
+    val shopType: String,
+    @NotBlank
+    val status: String,
+    @NotBlank
+    val hint: String,
+    @NotNull
+    val dropoffLocation: LatLng,
+    val userId: String?,
+    val supportUser: String?,
+    @NotEmpty
+    val items: List<OrderItemCreationDto>
+)
+
+@Validated
+@JsonNaming(SnakeCaseStrategy::class)
+data class OrderItemCreationDto(
+    @NotBlank
+    val description: String,
+    @NotBlank
+    val status: String
+)
+
+@JsonNaming(SnakeCaseStrategy::class)
 data class FirestoreUser(
     val address: String,
     val geoLocation: GeoPoint,
@@ -65,7 +98,7 @@ data class FirestoreOrder(
     val shopType: String,
     val status: String,
     val userId: String,
-    val products: List<FirestoreOrderItem>
+    val items: List<FirestoreOrderItem>
 )
 
 data class FirestoreOrderItem(

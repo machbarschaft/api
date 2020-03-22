@@ -44,20 +44,7 @@ check:
 build:
   image: openjdk:11
   stage: build
-  services:
-    - postgres:10
   variables:
-    POSTGRES_DB: colivery-db
-    POSTGRES_USER: colivery-db
-    POSTGRES_PASSWORD: 1e04966b-e72e-4cda-baee-25b724339d04
-    SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres:5432/${POSTGRES_DB}"
-    SPRING_DATASOURCE_USERNAME: "${POSTGRES_USER}"
-    SPRING_DATASOURCE_PASSWORD: "${POSTGRES_PASSWORD}"
-    AUTH_COGNITO_CLIENTID: 7etsk4q4l3omtoskcdaa69moav
-    AUTH_COGNITO_CLIENTSECRET: XXX
-    AUTH_COGNITO_BASEURL: https://auth-stage.colivery.eu
-    AUTH_COGNITO_CALLBACKURL: XXX
-    AUTH_COGNITO_KEYURL: https://cognito-idp.eu-central-1.amazonaws.com/eu-central-1_Yv2fbTGgy/.well-known/jwks.json
     GRADLE_OPTS: -Dorg.gradle.daemon=false -Dspring.profiles.include=test
   script:
     - "./gradlew $GRADLE_OPTS build --info"
