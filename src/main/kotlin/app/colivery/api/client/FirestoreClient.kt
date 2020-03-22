@@ -95,5 +95,6 @@ class FirestoreClient(private val firestore: Firestore) {
         if (firestoreOrder.driverUserId != decliderId) {
             throw BadRequestException("The driver is another person")
         }
+        orderCollection.document(orderId).set(mapOf("driver_user_id" to null, "status" to "to_be_delivered"))
     }
 }

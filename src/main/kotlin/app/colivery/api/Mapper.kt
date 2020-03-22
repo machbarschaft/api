@@ -18,7 +18,7 @@ fun UserCreationDto.asMap(email: String): Map<String, Any> =
         "is_support_member" to false
     )
 
-fun OrderCreationDto.asMap(userId: String): Map<String, Any?> =
+fun OrderCreationDto.asMap(userId: String, status: String): Map<String, Any?> =
     mapOf(
         "pickup_address" to pickupAddress,
         "pickup_location" to pickupLocation.toGeoPoint(),

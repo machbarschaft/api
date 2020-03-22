@@ -50,8 +50,6 @@ data class OrderCreationDto(
     @NotBlank
     val shopType: String,
     @NotBlank
-    val status: String,
-    @NotBlank
     val hint: String,
     @NotNull
     val dropoffLocation: LatLng,
