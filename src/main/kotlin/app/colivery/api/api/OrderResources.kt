@@ -86,6 +86,14 @@ class OrderResources(
         val (uid) = securityUtils.principal
             ?: throw UnauthorizedException()
 
-        return orderService.acceptOffer(userId = uid, orderId = orderId)
+        return orderService.acceptOrder(userId = uid, orderId = orderId)
+    }
+
+    @PostMapping("/declide")
+    fun declideOrder(@RequestParam(name = "order_id") orderId: String) {
+        val (uid) = securityUtils.principal
+            ?: throw UnauthorizedException()
+
+        return orderService.declideOrder(userId = uid, orderId = orderId)
     }
 }

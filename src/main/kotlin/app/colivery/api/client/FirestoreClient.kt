@@ -1,5 +1,6 @@
 package app.colivery.api.client
 
+import app.colivery.api.BadRequestException
 import app.colivery.api.FirestoreOrder
 import app.colivery.api.FirestoreUser
 import app.colivery.api.InternalServerException
@@ -87,5 +88,12 @@ class FirestoreClient(private val firestore: Firestore) {
         val userId = orderCollection.document(orderId).get().get().getString("user_id")
             ?: throw InternalServerException("Order found with unknown user. This should not happen.")
         return findUser(userId = userId)
+    }
+
+    fun declideOrder(decliderId: String, orderId: String) {
+        val firestoreOrder = findOrder(orderId = orderId)
+        if (firestoreOrder.driverUserId != decliderId) {
+            throw BadRequestException("The driver is another person")
+        }
     }
 }

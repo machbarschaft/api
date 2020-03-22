@@ -41,7 +41,11 @@ class OrderService(private val firestoreClient: FirestoreClient) {
         return firestoreClient.findOrders(orderIds = orderIds)
     }
 
-    fun acceptOffer(userId: String, orderId: String): FirestoreUser {
+    fun acceptOrder(userId: String, orderId: String): FirestoreUser {
         return firestoreClient.acceptOrder(acceptorId = userId, orderId = orderId)
+    }
+
+    fun declideOrder(userId: String, orderId: String) {
+        return firestoreClient.declideOrder(decliderId = userId, orderId = orderId)
     }
 }
