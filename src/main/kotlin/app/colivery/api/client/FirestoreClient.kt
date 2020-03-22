@@ -72,4 +72,12 @@ class FirestoreClient(private val firestore: Firestore) {
     fun updateOrderStatus(userId: String, orderId: String, status: String) {
         orderCollection.document(orderId).set(mapOf("status" to status), SetOptions.merge()).get()
     }
+
+    fun findOrders(orderIds: List<String>): List<FirestoreOrder> {
+        val documents = orderIds.map { orderCollection.document(it) }.toTypedArray()
+        return firestore.getAll(*documents).get().map { orderSnapshot ->
+            val items = orderCollection.document(orderSnapshot.id).collection(ORDER_ITEM_COLLECTION_NAME).listDocuments().map { it.toOrderItem() }
+            orderSnapshot.toOrder(items)
+        }
+    }
 }

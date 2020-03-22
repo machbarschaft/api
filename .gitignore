@@ -33,3 +33,4 @@ out/
 
 ### Custom ###
 /config
+/.docker_config

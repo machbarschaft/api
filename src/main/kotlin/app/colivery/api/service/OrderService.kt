@@ -35,4 +35,8 @@ class OrderService(private val firestoreClient: FirestoreClient) {
         // TODO check if user is allowed to see this document
         return firestoreClient.deleteItem(userId = userId, orderId = orderId, itemId = itemId)
     }
+
+    fun findOrders(orderIds: List<String>): List<FirestoreOrder> {
+        return firestoreClient.findOrders(orderIds = orderIds)
+    }
 }

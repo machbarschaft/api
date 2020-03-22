@@ -38,6 +38,16 @@ class OrderResources(
         return orderService.findOrder(orderId = orderId)
     }
 
+    @GetMapping("/batch", produces = [APPLICATION_JSON_VALUE])
+    fun getOrders(@RequestParam(name = "order_ids") orderIds: String): List<FirestoreOrder> {
+        securityUtils.principal
+            ?: throw UnauthorizedException()
+
+        val ids = orderIds.split(",")
+
+        return orderService.findOrders(orderIds = ids)
+    }
+
     @GetMapping("/own", produces = [APPLICATION_JSON_VALUE])
     fun findOwnOrders(): List<FirestoreOrder> {
         val (uid) = securityUtils.principal
