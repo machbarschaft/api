@@ -58,7 +58,8 @@ data class OrderCreationDto(
     val userId: String?,
     val supportUser: String?,
     @NotEmpty
-    val items: List<OrderItemCreationDto>
+    val items: List<OrderItemCreationDto>,
+    val maxPrice: Int?
 )
 
 @Validated
@@ -102,7 +103,8 @@ data class FirestoreOrder(
     val shopType: String,
     val status: String,
     val userId: String,
-    val items: List<FirestoreOrderItem>
+    val items: List<FirestoreOrderItem>,
+    val maxPrice: Long?
 )
 
 data class OwnOrderDao(

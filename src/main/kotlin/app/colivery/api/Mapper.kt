@@ -31,7 +31,8 @@ fun OrderCreationDto.asMap(userId: String, status: String): Map<String, Any?> =
         "user_id" to userId,
         "support_user" to supportUser,
         "pickup_location_geohash" to pickupLocationGeohash,
-        "dropoff_location_geohash" to dropoffLocationGeohash
+        "dropoff_location_geohash" to dropoffLocationGeohash,
+        "max_price" to maxPrice
     )
 
 fun OrderItemCreationDto.asMap() = mapOf<String, Any>(
@@ -77,7 +78,8 @@ fun DocumentSnapshot.toOrder(items: List<FirestoreOrderItem>) = FirestoreOrder(
     items = items,
     dropoffLocation = getGeoPoint("dropoff_location"),
     dropoffLocationGeohash = getString("dropoff_location_geohash"),
-    pickupLocationGeohash = getString("pickup_location_geohash")
+    pickupLocationGeohash = getString("pickup_location_geohash"),
+    maxPrice = getLong("max_price")
 )
 
 @Suppress("unchecked_cast")
