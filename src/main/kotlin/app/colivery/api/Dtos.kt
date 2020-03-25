@@ -41,12 +41,9 @@ data class UserCreationDto(
 @Validated
 @JsonNaming(SnakeCaseStrategy::class)
 data class OrderCreationDto(
-    @NotBlank
-    val pickupAddress: String,
-    @NotBlank
-    val pickupLocation: LatLng,
-    @NotBlank
-    val shopName: String,
+    val pickupAddress: String?,
+    val pickupLocation: LatLng?,
+    val shopName: String?,
     @NotBlank
     val shopType: String,
     @NotBlank
@@ -92,7 +89,7 @@ data class FirestoreOrder(
     val hint: String,
     val pickupAddress: String?,
     val pickupLocation: GeoPoint?,
-    val shopName: String,
+    val shopName: String?,
     val shopType: String,
     val status: String,
     val userId: String,
