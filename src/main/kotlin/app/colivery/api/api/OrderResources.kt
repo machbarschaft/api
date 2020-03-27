@@ -49,6 +49,14 @@ class OrderResources(
         return orderService.findOrders(orderIds = ids)
     }
 
+    @GetMapping("/driver/own", produces = [APPLICATION_JSON_VALUE])
+    fun findOwnDriverOrders(): List<FirestoreOrder> {
+        val (uid) = securityUtils.principal
+            ?: throw UnauthorizedException()
+
+        return orderService.findOrdersByDriverId(driverId = uid)
+    }
+
     @GetMapping("/own", produces = [APPLICATION_JSON_VALUE])
     fun findOwnOrders(): List<FirestoreOrder> {
         val (uid) = securityUtils.principal

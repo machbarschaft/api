@@ -22,6 +22,8 @@ class OrderService(private val firestoreClient: FirestoreClient) {
         return firestoreClient.findOrdersByUserId(userId = userId)
     }
 
+    fun findOrdersByDriverId(driverId: String): List<FirestoreOrder> = firestoreClient.findOrdersByDriverId(driverId)
+
     fun updateItemStatus(userId: String, orderId: String, itemId: String, status: String) {
         // TODO check if user is allowed to see this document
         return firestoreClient.updateItemStatus(userId = userId, orderId = orderId, itemId = itemId, status = status)

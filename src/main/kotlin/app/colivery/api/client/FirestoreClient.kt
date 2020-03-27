@@ -63,6 +63,13 @@ class FirestoreClient(private val firestore: Firestore) {
         }
     }
 
+    fun findOrdersByDriverId(driverId: String): List<FirestoreOrder> {
+        return orderCollection.whereEqualTo("driver_user_id", driverId).get().get().documents.map { orderSnapshot ->
+            val items = orderCollection.document(orderSnapshot.id).collection(ORDER_ITEM_COLLECTION_NAME).listDocuments().map { it.toOrderItem() }
+            orderSnapshot.toOrder(items)
+        }
+    }
+
     fun updateItemStatus(userId: String?, orderId: String, itemId: String, status: String) {
         orderCollection.document(orderId).collection(ORDER_ITEM_COLLECTION_NAME).document(itemId).set(mapOf("status" to status), SetOptions.merge()).get()
     }
