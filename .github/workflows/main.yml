@@ -29,6 +29,14 @@ jobs:
       with:
         arguments: clean assemble
 
+    - name: Google Cloud Build
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        service_account_key: ${{ secrets.GCLOUD_AUTH }}
+      run: |
+        touch empty.ignore
+        gcloud builds submit --ignore-file=empty.ignore --tag gcr.io/model-link-272316/colivery-api:dev
+
     - name: Cloud Run Deployment
       uses: stefda/action-cloud-run@v1.0
       with:
