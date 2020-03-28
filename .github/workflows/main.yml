@@ -39,4 +39,4 @@ jobs:
         touch empty.ignore
         gcloud config set project model-link-272316
         gcloud builds submit --ignore-file=empty.ignore --tag gcr.io/model-link-272316/colivery-api:dev
-        gcloud run deploy colivery-app --image gcr.io/model-link-272316/colivery-api:latest --concurrency=default --memory=512Mi --set-env-vars=MaxRAM=512m --region=europe-west1 --platform=managed
+        gcloud run deploy colivery-app --image gcr.io/model-link-272316/colivery-api:dev --concurrency=default --memory=512Mi --set-env-vars=MaxRAM=512m --region=europe-west1 --platform=managed
