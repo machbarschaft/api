@@ -29,28 +29,14 @@ jobs:
       with:
         arguments: clean assemble
 
-  deploy:
     - name: Prepare Cloud Build
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         service_account_key: ${{ secrets.GCLOUD_AUTH }}
 
-    - name: Run Cloud Build
+    - name: Cloud Run Deployment
       run: |
         touch empty.ignore
         gcloud config set project model-link-272316
         gcloud builds submit --ignore-file=empty.ignore --tag gcr.io/model-link-272316/colivery-api:dev
-
-    - name: Cloud Run Deployment
-      uses: stefda/action-cloud-run@v1.0
-      with:
-        # Name of the docker image
-        image: gcr.io/model-link-272316/colivery-api:dev
-        # Name of the service in Cloud Run
-        service: colivery-api
-        # GCP project
-        project: model-link-272316
-        # GCP region
-        region: europe-west1
-        # GCP service key with storage and run permissions
-        service key: ${{ secrets.GCLOUD_AUTH }}
+        gcloud run deploy colivery-app --image gcr.io/model-link-272316/colivery-api:latest --concurrency=default --memory=512Mi --set-env-vars=MaxRAM=512m --region=europe-west1 --platform=managed
