@@ -29,6 +29,7 @@ jobs:
       with:
         arguments: clean assemble
 
+  deploy:
     - name: Prepare Cloud Build
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
