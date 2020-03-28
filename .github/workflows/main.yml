@@ -29,10 +29,12 @@ jobs:
       with:
         arguments: clean assemble
 
-    - name: Google Cloud Build
+    - name: Prepare Cloud Build
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         service_account_key: ${{ secrets.GCLOUD_AUTH }}
+
+    - name: Run Cloud Build
       run: |
         touch empty.ignore
         gcloud builds submit --ignore-file=empty.ignore --tag gcr.io/model-link-272316/colivery-api:dev
