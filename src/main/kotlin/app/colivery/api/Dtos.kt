@@ -99,6 +99,11 @@ data class FirestoreOrder(
     val items: List<FirestoreOrderItem>
 )
 
+data class OwnOrderDao(
+    val order: FirestoreOrder,
+    val creator: FirestoreUser
+)
+
 data class FirestoreOrderItem(
     val id: String,
     val description: String,
