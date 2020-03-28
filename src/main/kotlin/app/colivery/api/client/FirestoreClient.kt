@@ -1,17 +1,9 @@
 package app.colivery.api.client
 
-import app.colivery.api.BadRequestException
-import app.colivery.api.FirestoreOrder
-import app.colivery.api.FirestoreUser
-import app.colivery.api.InternalServerException
-import app.colivery.api.OrderItemCreationDto
-import app.colivery.api.asMap
+import app.colivery.api.*
 import app.colivery.api.config.ORDER_COLLECTION_NAME
 import app.colivery.api.config.ORDER_ITEM_COLLECTION_NAME
 import app.colivery.api.config.USER_COLLECTION_NAME
-import app.colivery.api.toOrder
-import app.colivery.api.toOrderItem
-import app.colivery.api.toUser
 import com.google.cloud.firestore.Firestore
 import com.google.cloud.firestore.SetOptions
 import org.slf4j.Logger
@@ -63,10 +55,12 @@ class FirestoreClient(private val firestore: Firestore) {
         }
     }
 
-    fun findOrdersByDriverId(driverId: String): List<FirestoreOrder> {
+    fun findOrdersByDriverId(driverId: String): List<OwnOrderDao> {
         return orderCollection.whereEqualTo("driver_user_id", driverId).get().get().documents.map { orderSnapshot ->
             val items = orderCollection.document(orderSnapshot.id).collection(ORDER_ITEM_COLLECTION_NAME).listDocuments().map { it.toOrderItem() }
-            orderSnapshot.toOrder(items)
+            orderSnapshot.toOwnOrderDao(items, this.findUser(notNull("user_id") {
+                orderSnapshot.getString("user_id")
+            }))
         }
     }
 

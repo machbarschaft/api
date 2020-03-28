@@ -1,9 +1,6 @@
 package app.colivery.api.api
 
-import app.colivery.api.FirestoreOrder
-import app.colivery.api.FirestoreUser
-import app.colivery.api.OrderCreationDto
-import app.colivery.api.UnauthorizedException
+import app.colivery.api.*
 import app.colivery.api.config.SecurityUtils
 import app.colivery.api.service.OrderService
 import javax.validation.Valid
@@ -50,7 +47,7 @@ class OrderResources(
     }
 
     @GetMapping("/driver/own", produces = [APPLICATION_JSON_VALUE])
-    fun findOwnDriverOrders(): List<FirestoreOrder> {
+    fun findOwnDriverOrders(): List<OwnOrderDao> {
         val (uid) = securityUtils.principal
             ?: throw UnauthorizedException()
 

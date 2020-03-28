@@ -30,12 +30,13 @@ class FirestoreConfig {
             FileInputStream(keyLocation)
         }
         val options = FirebaseOptions.Builder()
-            .setCredentials(GoogleCredentials.getApplicationDefault())
             .setProjectId("colivery-app")
             .setDatabaseUrl("https://colivery-app.firebaseio.com")
 
         if (stream != null) {
             options.setCredentials(GoogleCredentials.fromStream(stream))
+        } else {
+            options.setCredentials(GoogleCredentials.getApplicationDefault())
         }
 
         return FirebaseApp.initializeApp(options.build())

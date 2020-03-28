@@ -73,6 +73,12 @@ fun DocumentSnapshot.toOrder(items: List<FirestoreOrderItem>) = FirestoreOrder(
     items = items
 )
 
+@Suppress("unchecked_cast")
+fun DocumentSnapshot.toOwnOrderDao(items: List<FirestoreOrderItem>, creator: FirestoreUser) = OwnOrderDao(
+    order = this.toOrder(items),
+    creator = creator
+)
+
 fun DocumentSnapshot.toOrderItem() = FirestoreOrderItem(
     id = id,
     description = notNull("description", this::getString),
@@ -83,7 +89,7 @@ fun DocumentSnapshot.toOrderItem() = FirestoreOrderItem(
 
 fun LatLng.toGeoPoint() = GeoPoint(latitude, longitude)
 
-private inline fun <reified T : Any> notNull(fieldName: String, provider: (fieldName: String) -> T?): T {
+inline fun <reified T : Any> notNull(fieldName: String, provider: (fieldName: String) -> T?): T {
     val value: T? = provider(fieldName)
     return requireNotNull(value) { "$fieldName must not be null" }
 }

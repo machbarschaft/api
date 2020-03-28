@@ -1,9 +1,6 @@
 package app.colivery.api.service
 
-import app.colivery.api.FirestoreOrder
-import app.colivery.api.FirestoreUser
-import app.colivery.api.OrderCreationDto
-import app.colivery.api.asMap
+import app.colivery.api.*
 import app.colivery.api.client.FirestoreClient
 import org.springframework.stereotype.Service
 
@@ -22,7 +19,7 @@ class OrderService(private val firestoreClient: FirestoreClient) {
         return firestoreClient.findOrdersByUserId(userId = userId)
     }
 
-    fun findOrdersByDriverId(driverId: String): List<FirestoreOrder> = firestoreClient.findOrdersByDriverId(driverId)
+    fun findOrdersByDriverId(driverId: String): List<OwnOrderDao> = firestoreClient.findOrdersByDriverId(driverId)
 
     fun updateItemStatus(userId: String, orderId: String, itemId: String, status: String) {
         // TODO check if user is allowed to see this document
