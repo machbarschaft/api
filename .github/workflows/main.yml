@@ -27,7 +27,7 @@ jobs:
     - name: Gradle Build
       uses: eskatos/gradle-command-action@v1
       with:
-        arguments: build
+        arguments: clean assemble
 
     - name: Cloud Run Deployment
       uses: stefda/action-cloud-run@v1.0

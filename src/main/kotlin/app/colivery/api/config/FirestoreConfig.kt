@@ -21,18 +21,24 @@ const val ORDER_COLLECTION_NAME = "order"
 class FirestoreConfig {
 
     @Bean
-    fun createFirebaseApp(@NotBlank @Value("\${google.keyLocation}") keyLocation: String): FirebaseApp {
-        val stream = if (keyLocation.startsWith("classpath:")) {
+    fun createFirebaseApp(@Value("\${google.keyLocation:#{null}}") keyLocation: String?): FirebaseApp {
+        val stream = if (keyLocation == null || keyLocation == "") {
+            null
+        } else if (keyLocation.startsWith("classpath:")) {
             javaClass.getResourceAsStream(keyLocation.substringAfter("classpath:"))
         } else {
             FileInputStream(keyLocation)
         }
         val options = FirebaseOptions.Builder()
-            .setCredentials(GoogleCredentials.fromStream(stream))
+            .setCredentials(GoogleCredentials.getApplicationDefault())
+            .setProjectId("colivery-app")
             .setDatabaseUrl("https://colivery-app.firebaseio.com")
-            .build()
 
-        return FirebaseApp.initializeApp(options)
+        if (stream != null) {
+            options.setCredentials(GoogleCredentials.fromStream(stream))
+        }
+
+        return FirebaseApp.initializeApp(options.build())
     }
 
     @Bean
