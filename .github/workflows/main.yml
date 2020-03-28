@@ -37,6 +37,7 @@ jobs:
     - name: Run Cloud Build
       run: |
         touch empty.ignore
+        gcloud config set project model-link-272316
         gcloud builds submit --ignore-file=empty.ignore --tag gcr.io/model-link-272316/colivery-api:dev
 
     - name: Cloud Run Deployment
