@@ -45,6 +45,7 @@ data class OrderCreationDto(
     val pickupAddress: String,
     @NotBlank
     val pickupLocation: LatLng,
+    val pickupLocationGeohash: String?,
     @NotBlank
     val shopName: String,
     @NotBlank
@@ -53,6 +54,8 @@ data class OrderCreationDto(
     val hint: String,
     @NotNull
     val dropoffLocation: LatLng,
+    @NotNull
+    val dropoffLocationGeohash: String,
     val userId: String?,
     val supportUser: String?,
     @NotEmpty
@@ -92,6 +95,9 @@ data class FirestoreOrder(
     val hint: String,
     val pickupAddress: String?,
     val pickupLocation: GeoPoint?,
+    val pickupLocationGeohash: String?,
+    val dropoffLocationGeohash: String?,
+    val dropoffLocation: GeoPoint?,
     val shopName: String,
     val shopType: String,
     val status: String,
