@@ -3,12 +3,12 @@ package app.colivery.api
 import com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import com.google.cloud.firestore.GeoPoint
+import org.springframework.validation.annotation.Validated
 import java.time.Instant
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
-import org.springframework.validation.annotation.Validated
 
 @Validated
 data class LatLng(
@@ -35,7 +35,9 @@ data class UserCreationDto(
     @NotBlank
     val phone: String,
     @NotBlank
-    val name: String
+    val firstName: String,
+    @NotBlank
+    val lastName: String
 )
 
 @Validated
@@ -76,7 +78,8 @@ data class FirestoreUser(
     val acceptedTermsOfUse: Boolean,
     val phone: String,
     val userId: String,
-    val name: String,
+    val firstName: String,
+    val lastName: String,
     val updated: Instant?,
     val created: Instant?,
     val email: String,
