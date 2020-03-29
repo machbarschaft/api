@@ -12,7 +12,8 @@ fun UserCreationDto.asMap(email: String): Map<String, Any> =
         "accepted_privacy_policy" to acceptedPrivacyPolicy,
         "accepted_terms_of_use" to acceptedTermsOfUse,
         "phone" to phone,
-        "name" to name,
+        "first_name" to firstName,
+        "last_name" to lastName,
         "email" to email,
         "accepted_support_inquiry" to acceptedPrivacyPolicy,
         "is_support_member" to false
@@ -46,7 +47,8 @@ fun DocumentReference.toOrderItem() = get().get().toOrderItem()
 
 fun DocumentSnapshot.toUser() = FirestoreUser(
     userId = id,
-    name = notNull("name", this::getString),
+    firstName = notNull("first_name", this::getString),
+    lastName = notNull("last_name", this::getString),
     address = notNull("address", this::getString),
     phone = notNull("phone", this::getString),
     email = notNull("email", this::getString),
