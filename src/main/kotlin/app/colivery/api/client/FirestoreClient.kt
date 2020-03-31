@@ -55,12 +55,10 @@ class FirestoreClient(private val firestore: Firestore) {
         }
     }
 
-    fun findOrdersByDriverId(driverId: String): List<OwnOrderDao> {
+    fun findOrdersByDriverId(driverId: String): List<FirestoreOrder> {
         return orderCollection.whereEqualTo("driver_user_id", driverId).get().get().documents.map { orderSnapshot ->
             val items = orderCollection.document(orderSnapshot.id).collection(ORDER_ITEM_COLLECTION_NAME).listDocuments().map { it.toOrderItem() }
-            orderSnapshot.toOwnOrderDao(items, this.findUser(notNull("user_id") {
-                orderSnapshot.getString("user_id")
-            }))
+            orderSnapshot.toOrder(items)
         }
     }
 
