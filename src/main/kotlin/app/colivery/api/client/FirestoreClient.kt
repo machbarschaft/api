@@ -97,9 +97,9 @@ class FirestoreClient(private val firestore: Firestore) {
             throw BadRequestException("The driver is another person")
         }
 
-        orderCollection.document(orderId).set(firestoreOrder.copy(
-            driverUserId = null,
-            status = "to_be_delivered"
-        ))
+        orderCollection.document(orderId).set(mapOf(
+            "driver_user_id" to null,
+            "status" to "to_be_delivered"
+        ), SetOptions.merge())
     }
 }
