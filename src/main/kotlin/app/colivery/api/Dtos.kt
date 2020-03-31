@@ -109,7 +109,8 @@ data class FirestoreOrder(
 
 data class OwnOrderDao(
     val order: FirestoreOrder,
-    val creator: FirestoreUser
+    val creator: FirestoreUser,
+    val driver: FirestoreUser?
 )
 
 data class FirestoreOrderItem(

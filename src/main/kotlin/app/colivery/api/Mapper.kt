@@ -82,12 +82,6 @@ fun DocumentSnapshot.toOrder(items: List<FirestoreOrderItem>) = FirestoreOrder(
     maxPrice = getLong("max_price")
 )
 
-@Suppress("unchecked_cast")
-fun DocumentSnapshot.toOwnOrderDao(items: List<FirestoreOrderItem>, creator: FirestoreUser) = OwnOrderDao(
-    order = this.toOrder(items),
-    creator = creator
-)
-
 fun DocumentSnapshot.toOrderItem() = FirestoreOrderItem(
     id = id,
     description = notNull("description", this::getString),

@@ -3,21 +3,17 @@ package app.colivery.api.api
 import app.colivery.api.*
 import app.colivery.api.config.SecurityUtils
 import app.colivery.api.service.OrderService
-import javax.validation.Valid
+import app.colivery.api.service.UserService
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/order")
 class OrderResources(
     private val securityUtils: SecurityUtils,
-    private val orderService: OrderService
+    private val orderService: OrderService,
+    private val userService: UserService
 ) {
 
     @PostMapping(consumes = [APPLICATION_JSON_VALUE])
@@ -52,14 +48,20 @@ class OrderResources(
             ?: throw UnauthorizedException()
 
         return orderService.findOrdersByDriverId(driverId = uid)
+            .map {
+                OwnOrderDao(it, userService.findUser(it.userId), it.driverUserId?.let { it1 -> userService.findUser(it1) })
+            }
     }
 
     @GetMapping("/own", produces = [APPLICATION_JSON_VALUE])
-    fun findOwnOrders(): List<FirestoreOrder> {
+    fun findOwnOrders(): List<OwnOrderDao> {
         val (uid) = securityUtils.principal
             ?: throw UnauthorizedException()
 
         return orderService.findOrdersByUserId(userId = uid)
+            .map {
+                OwnOrderDao(it, userService.findUser(it.userId), it.driverUserId?.let { it1 -> userService.findUser(it1) })
+            }
     }
 
     @PostMapping("/update_order_status")
