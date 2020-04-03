@@ -31,6 +31,7 @@ security:
     - Cache-Control
   allowedPublicApis:
     - /api-docs/**
+    - /order/all
 
 springdoc:
   api-docs:

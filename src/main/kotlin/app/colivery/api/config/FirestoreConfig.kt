@@ -21,7 +21,8 @@ const val ORDER_COLLECTION_NAME = "order"
 class FirestoreConfig {
 
     @Bean
-    fun createFirebaseApp(@Value("\${google.keyLocation:#{null}}") keyLocation: String?): FirebaseApp {
+    fun createFirebaseApp(@Value("\${google.keyLocation:#{null}}") keyLocation: String?,
+                        @Value("\${google.applicationUid:#{null}") applicationUid: String?): FirebaseApp {
         val stream = if (keyLocation == null || keyLocation == "") {
             null
         } else if (keyLocation.startsWith("classpath:")) {
@@ -37,6 +38,10 @@ class FirestoreConfig {
             options.setCredentials(GoogleCredentials.fromStream(stream))
         } else {
             options.setCredentials(GoogleCredentials.getApplicationDefault())
+        }
+
+        if (applicationUid != null) {
+            options.setDatabaseAuthVariableOverride(mapOf("uid" to applicationUid))
         }
 
         return FirebaseApp.initializeApp(options.build())
