@@ -6,6 +6,7 @@ import app.colivery.api.config.ORDER_ITEM_COLLECTION_NAME
 import app.colivery.api.config.USER_COLLECTION_NAME
 import com.google.cloud.firestore.Firestore
 import com.google.cloud.firestore.SetOptions
+import com.google.firebase.auth.FirebaseAuth
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Primary
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service
 
 @Service
 @Primary
-class FirestoreClient(private val firestore: Firestore) {
+class FirestoreClient(private val firestore: Firestore,
+                      private val firebaseAuth: FirebaseAuth) {
 
     private val logger: Logger = LoggerFactory.getLogger(FirestoreClient::class.java)
 
@@ -99,5 +101,24 @@ class FirestoreClient(private val firestore: Firestore) {
             "driver_user_id" to null,
             "status" to "to_be_delivered"
         ), SetOptions.merge())
+    }
+
+    fun deleteUser(userId: String) {
+        this.orderCollection
+            .whereEqualTo("user_id", userId)
+            .get()
+            .get()
+            .documents
+            .forEach {
+                val orderId = it.id
+                this.orderCollection.document(orderId)
+                    .set(mapOf("status" to "consumer_canceled"), SetOptions.merge())
+            }
+
+        this.userCollection
+            .document(userId)
+            .delete()
+
+        this.firebaseAuth.deleteUser(userId)
     }
 }
