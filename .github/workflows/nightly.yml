@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI/CD Nightly
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -39,4 +39,4 @@ jobs:
         touch empty.ignore
         gcloud config set project model-link-272316
         gcloud builds submit --ignore-file=empty.ignore --tag gcr.io/model-link-272316/colivery-api:dev
-        gcloud run deploy colivery-app --image gcr.io/model-link-272316/colivery-api:dev --concurrency=default --memory=512Mi --set-env-vars=MaxRAM=512m --region=europe-west1 --platform=managed
+        gcloud run deploy service-api-nightly --image gcr.io/model-link-272316/colivery-api:dev --concurrency=default --memory=512Mi --set-env-vars=MaxRAM=512m --region=europe-west1 --platform=managed
