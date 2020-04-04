@@ -16,4 +16,8 @@ class UserService(private val firestoreClient: FirestoreClient) {
     fun findUser(userId: String): FirestoreUser {
         return firestoreClient.findUser(userId = userId)
     }
+
+    fun deleteUser(userId: String) {
+        return firestoreClient.deleteUser(userId)
+    }
 }
