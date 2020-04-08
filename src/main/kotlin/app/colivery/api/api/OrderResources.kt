@@ -21,7 +21,9 @@ class OrderResources(
         val (uid) = securityUtils.principal
             ?: throw UnauthorizedException()
 
-        return orderService.createOrder(userId = uid, orderCreationDto = orderCreationDto)
+        val user = userService.findUser(uid)
+
+        return orderService.createOrder(userId = uid, orderCreationDto = orderCreationDto, dropoffAddress = user.address)
     }
 
     @GetMapping(produces = [APPLICATION_JSON_VALUE])

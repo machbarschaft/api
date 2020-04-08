@@ -19,7 +19,7 @@ fun UserCreationDto.asMap(email: String): Map<String, Any> =
         "is_support_member" to false
     )
 
-fun OrderCreationDto.asMap(userId: String, status: String): Map<String, Any?> =
+fun OrderCreationDto.asMap(userId: String, status: String, dropoffAddress: String): Map<String, Any?> =
     mapOf(
         "pickup_address" to pickupAddress,
         "pickup_location" to pickupLocation?.toGeoPoint(),
@@ -28,6 +28,7 @@ fun OrderCreationDto.asMap(userId: String, status: String): Map<String, Any?> =
         "status" to status,
         "hint" to hint,
         "dropoff_location" to dropoffLocation.toGeoPoint(),
+        "dropoff_address" to dropoffAddress,
         "user_id" to userId,
         "support_user" to supportUser,
         "pickup_location_geohash" to pickupLocationGeohash,
@@ -76,6 +77,7 @@ fun DocumentSnapshot.toOrder(items: List<FirestoreOrderItem>) = FirestoreOrder(
     shopName = getString("shop_name"),
     shopType = notNull("shop_type", this::getString),
     items = items,
+    dropoffAddress = notNull("dropoff_address", this::getString),
     dropoffLocation = getGeoPoint("dropoff_location"),
     dropoffLocationGeohash = getString("dropoff_location_geohash"),
     pickupLocationGeohash = getString("pickup_location_geohash"),

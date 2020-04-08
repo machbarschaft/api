@@ -99,6 +99,7 @@ data class FirestoreOrder(
     val shopName: String?,
     val pickupLocationGeohash: String?,
     val dropoffLocationGeohash: String?,
+    val dropoffAddress: String,
     val dropoffLocation: GeoPoint?,
     val shopType: String,
     val status: String,

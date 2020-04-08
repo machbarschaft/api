@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service
 @Service
 class OrderService(private val firestoreClient: FirestoreClient) {
 
-    fun createOrder(userId: String, orderCreationDto: OrderCreationDto): FirestoreOrder {
-        return firestoreClient.saveOrder(orderDetails = orderCreationDto.asMap(userId = userId, status = "to_be_delivered"), items = orderCreationDto.items)
+    fun createOrder(userId: String, orderCreationDto: OrderCreationDto, dropoffAddress: String): FirestoreOrder {
+        return firestoreClient.saveOrder(orderDetails = orderCreationDto.asMap(userId = userId, status = "to_be_delivered", dropoffAddress = dropoffAddress), items = orderCreationDto.items)
     }
 
     fun findOrder(orderId: String): FirestoreOrder {
